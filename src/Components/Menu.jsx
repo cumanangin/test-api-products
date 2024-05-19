@@ -4,8 +4,12 @@ import { BiSolidFileFind, BiCategory, BiSolidCategory } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCancelCircle } from "react-icons/im";
 import { FaBoxOpen, FaSearch, FaHome, FaEdit } from "react-icons/fa";
-import { IoMdAddCircle } from "react-icons/io";
+import Logout from "../assets/logout.png";
+import { IoMdAddCircle, IoIosLogOut } from "react-icons/io";
 import { RiDeleteBack2Fill } from "react-icons/ri";
+import { apiSlice } from "../app/api/apiSlice";
+import { logOut } from "../Pages/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const Menu = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -20,7 +24,7 @@ const Menu = () => {
   const sidebarIcons = [
     {
       icon: <FaHome size={15} />,
-      path: "/",
+      path: "/home",
     },
     {
       icon: <FaBoxOpen size={15} />,
@@ -51,10 +55,11 @@ const Menu = () => {
       path: "/delete",
     },
   ];
-  const token = localStorage.removeItem("token");
+
+  const dispatch = useDispatch();
 
   const logout = () => {
-    token;
+    dispatch(logOut());
   };
 
   return (
@@ -90,16 +95,21 @@ const Menu = () => {
                 {sidebarIcons.map((itemIcons, index) => {
                   //const Icons = itemIcons.icon;
                   return (
-                    <li
-                      key={index}
-                      className="hover:cursor-pointer hover:duration-200"
-                    >
-                      <div className="flex p-3">
-                        <Link to={itemIcons.path}>{itemIcons.icon}</Link>
-                      </div>
-                    </li>
+                    <div>
+                      <li
+                        key={index}
+                        className="hover:cursor-pointer hover:duration-200"
+                      >
+                        <div className="flex p-3">
+                          <Link to={itemIcons.path}>{itemIcons.icon}</Link>
+                        </div>
+                      </li>
+                    </div>
                   );
                 })}
+                <div onClick={logout} className="flex p-3 items-center">
+                  <img src={Logout} width={15} />
+                </div>
               </ul>
               <div className="flex p-3">
                 <ImCancelCircle onClick={handleSidebar} />
